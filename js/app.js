@@ -4,10 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const squares = Array.from(document.getElementsByClassName('square'));
     const message = document.getElementById('message');
     const resetBtn = document.getElementById('reset-btn');
+    const xWinsDisplay = document.getElementById('x-wins');
+    const oWinsDisplay = document.getElementById('o-wins');
 
     let currentPlayer = 'X';
     let gameActive = true;
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
+    let xWins = 0;
+    let oWins = 0;
 
     const winningCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8], //rows
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (currentPlayer === 'O' && gameActive) {
             computerMove();
+            updateWins();
         }
     };
 
@@ -44,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const [a, b, c] = combo;
             if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
                 endGame(`${gameBoard[a]} wins!`);
+                updateWins();
                 return;
             }
         }
@@ -88,5 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
+
+    const updateWins = () => {
+        if (message.textContent.includes('X wins')) {
+            xWins++;
+            xWinsDisplay.textContent = `Player X Wins: ${xWins}`;
+        } else if (message.textContent.includes('O wins')) {
+            oWins++;
+            oWinsDisplay.textContent = `Player O Wins: ${oWins}`;
+        }
+    };
 
 });
