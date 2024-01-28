@@ -1,4 +1,4 @@
-console.log('Script is running!');
+
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('game-board');
     const squares = Array.from(document.getElementsByClassName('square'));
@@ -31,8 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const makeMove = (index) => {
         gameBoard[index] = currentPlayer;
         squares[index].textContent = currentPlayer;
-        currentPlayer = currentPlayer === 'X' ? '0' : 'X';
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         message.textContent = `It's ${currentPlayer}'s turn`;
+        
+        if (currentPlayer === 'O' && gameActive) {
+            computerMove();
+        }
     };
 
     const checkGameStatus = () => {
@@ -53,29 +57,36 @@ document.addEventListener('DOMContentLoaded', () => {
         message.textContent = result;
     };
 
-
     const resetGame = () => {
-        gameBoard = ['', '', '', '', '', '', '', '', ''];
-        gameActive = true;
+        gameBoard = ['', '', '', '', '', '', '', '', '',];
         currentPlayer = 'X';
-        message.innerText = `Player ${currentPlayer}'s turn`;
-        
+        gameActive = true;
+
         squares.forEach(square => {
-            square.innerText = '';
+            square.textContent = '';
         });
+        message.textContent = `${currentPlayer}'s turn`;
     };
 
-    // Event listener for square clicks
-    squares.forEach((square, index) => {
-        square.addEventListener('click', () => {
-            if (gameActive && gameBoard[index] === '') {
-                makeMove(index);
+    const computerMove = () => {
+        console.log('Computer is making a move');
+        if (gameActive) {
+            const emptySquares = gameBoard.reduce((acc, value, index) => {
+                if (!value) {
+                    acc.push(index);
+                }
+                return acc;
+            }, []);
+    
+            const randomIndex = Math.floor(Math.random() * emptySquares.length);
+            const computerChoice = emptySquares[randomIndex];
+    
+            setTimeout(() => {
+                makeMove(computerChoice);
                 checkGameStatus();
-            }
-        });
-    });
+            }, 1000);
+        }
+    };
+    
 
-    resetBtn.addEventListener('click', () => {
-        resetGame();
-    });
 });
