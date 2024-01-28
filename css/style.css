@@ -1,0 +1,27 @@
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 30%);
+    gap: 2%;
+}
+
+.square {
+    border: 1px solid black;
+    width: 100%;
+    padding-bottom: 100%;
+    font-size: 4vw;
+    text-align: center;
+    line-height: 100%;
+    cursor: pointer;
+}
+
+#reset-btn {
+    margin-top: 4%;
+    font-size: 2vw;
+    padding: 1% 2%;
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 2%;
+    font-size: 2vw;
+}
