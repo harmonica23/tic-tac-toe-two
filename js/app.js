@@ -53,15 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
         message.textContent = result;
     };
 
-    const resetGame = () => {
-        gameBoard = ['', '', '', '', '', '', '', '', '',];
-        currentPlayer = 'X';
-        gameActive = true;
 
+    const resetGame = () => {
+        gameBoard = ['', '', '', '', '', '', '', '', ''];
+        gameActive = true;
+        currentPlayer = 'X';
+        message.innerText = `Player ${currentPlayer}'s turn`;
+        
         squares.forEach(square => {
-            square.textContent = '';
+            square.innerText = '';
         });
-        message.textContent = `It's ${currentPlayer}'s turn`;
     };
 
+    // Event listener for square clicks
+    squares.forEach((square, index) => {
+        square.addEventListener('click', () => {
+            if (gameActive && gameBoard[index] === '') {
+                makeMove(index);
+                checkGameStatus();
+            }
+        });
+    });
+
+    resetBtn.addEventListener('click', () => {
+        resetGame();
+    });
 });
